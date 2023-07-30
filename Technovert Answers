@@ -1,0 +1,187 @@
+Use Array.reduce() method to reverse the following given array
+const arr = [1, 2, 3, 4, 5]
+
+ANS == 
+const arr = [1, 2, 3, 4, 5];
+
+const reversedArr = arr.reduce((reversed, current) => {
+  return [current, ...reversed];
+}, []);
+
+console.log(reversedArr); // Output: [5, 4, 3, 2, 1]
+
+
+
+Q========================================
+In what order will the numbers 1-4 be logged to the console when the code below is executed? Why?
+
+(function() {
+
+    console.log(1); 
+
+    setTimeout(function(){console.log(2)}, 1000); 
+
+    setTimeout(function(){console.log(3)}, 0); 
+
+    console.log(4);
+
+})();
+
+ANS ========================
+The numbers 1, 4, 3, and 2 will be logged to the console in the following order:
+
+1 is logged immediately when the IIFE (Immediately Invoked Function Expression) is executed.
+4 is logged next, as it comes after the first console.log() statement inside the IIFE.
+3 is logged after a very short delay, despite having a setTimeout delay of 0 milliseconds. The reason is that even though the delay is specified as 0, JavaScript treats it as "as soon as possible" but still puts it into the event queue, which means it will execute after the current execution context finishes.
+2 is logged last, as it has a setTimeout delay of 1000 milliseconds (1 second). It will be executed after the other console statements, waiting for the specified delay.
+So, the order of logging will be: 1, 4, 3, 2.
+
+
+
+
+Q====================================
+What will the code below output to the console and why?
+
+var arr1 = "john".split(''); 
+
+var arr2 = arr1.reverse();
+
+var arr3 = "jones".split('');
+
+arr2.push(arr3);
+
+console.log("array 1: length=" + arr1.length + " last=" + arr1.slice(-1));
+
+console.log("array 2: length=" + arr2.length + " last=" + arr2.slice(-1));
+
+ANS ==== ==========================
+
+array 1: length=5 last=j,o,n,e,s
+array 2: length=5 last=j,o,n,e,s
+Explanation:
+
+var arr1 = "john".split('');: arr1 is assigned the result of splitting the string "john" into an array of characters, so arr1 becomes ['j', 'o', 'h', 'n'].
+
+var arr2 = arr1.reverse();: arr2 is assigned the reference to the same array as arr1, after it has been reversed. Both arr1 and arr2 now reference the same reversed array ['n', 'h', 'o', 'j'].
+
+var arr3 = "jones".split('');: arr3 is assigned the result of splitting the string "jones" into an array of characters, so arr3 becomes ['j', 'o', 'n', 'e', 's'].
+
+arr2.push(arr3);: The array arr3 is pushed as a single element to the end of arr2. After this operation, arr2 will look like ['n', 'h', 'o', 'j', ['j', 'o', 'n', 'e', 's']].
+
+console.log("array 1: length=" + arr1.length + " last=" + arr1.slice(-1));: It logs the length of arr1, which is 5, and the last element of arr1 obtained using arr1.slice(-1), which is "s". The slice(-1) method returns the last element of the array.
+
+console.log("array 2: length=" + arr2.length + " last=" + arr2.slice(-1));: It logs the length of arr2, which is 5, and the last element of arr2 obtained using arr2.slice(-1). The last element of arr2 is an array ['j', 'o', 'n', 'e', 's'], so it logs the entire array as a string.
+
+
+
+
+Q=========================
+ What will the following code's output be in sequence and explain why?
+function printNumber(num) {
+
+  console.log(num);
+
+}
+
+
+console.log(1);
+
+
+setTimeout(printNumber, 0, 2);
+
+
+setTimeout(printNumber, 100, 3);
+
+
+console.log(4);
+
+
+
+ANS =======================================
+
+The output sequence of the code will be:
+
+1
+4
+2
+3
+Explanation:
+
+console.log(1);: The value 1 is immediately logged to the console.
+
+setTimeout(printNumber, 0, 2);: A timer is set for printNumber(2) to be executed with a delay of 0 milliseconds. Even though the delay is set to 0, JavaScript will still put the function call into the event queue, and it will be executed after the current execution context is finished.
+
+setTimeout(printNumber, 100, 3);: A timer is set for printNumber(3) to be executed with a delay of 100 milliseconds. This timer will be executed after the previous setTimeout (the one with the delay of 0 milliseconds).
+
+console.log(4);: The value 4 is immediately logged to the console.
+
+Now, let's look at the order of execution:
+
+console.log(1); is executed first, immediately logging 1.
+
+setTimeout(printNumber, 0, 2); is called, and even though its delay is 0, it will be executed after the current execution context is finished. So, 2 is logged next.
+
+setTimeout(printNumber, 100, 3); is called, and it is scheduled to execute after 100 milliseconds. Since there's no other synchronous code to execute, it will run after the previous setTimeout with a delay of 0. So, 3 is logged last.
+
+
+
+
+Q==========================================================
+
+ Check the below given code, if there are any issues, fix them and explain the output
+
+const numbers = [1, 2, 3, 4, 5];
+
+const result = numbers.reduce((acc, num) => {
+
+  if (num % 2 === 0) {
+
+    acc.evens.push(num);
+
+  } else {
+
+    acc.odds.push(num);
+
+  }
+
+  return acc;
+
+});
+
+
+
+console.log(result);
+
+
+
+ANS ==================================================
+
+
+The given code has a minor issue: it does not initialize the accumulator acc properly. It will cause an error because acc is undefined when the first iteration starts. To fix this issue, we need to provide an initial value for the accumulator as an empty object { odds: [], evens: [] }.
+
+Here's the corrected code:
+
+const numbers = [1, 2, 3, 4, 5];
+
+const result = numbers.reduce((acc, num) => {
+  if (num % 2 === 0) {
+    acc.evens.push(num);
+  } else {
+    acc.odds.push(num);
+  }
+  return acc;
+}, { odds: [], evens: [] });
+
+console.log(result);
+
+Explanation:
+
+The reduce method is used on the numbers array with an initial accumulator value of { odds: [], evens: [] }.
+
+During each iteration, if the current number num is even (divisible by 2), it is pushed to the evens array in the accumulator.
+
+If the number is odd, it is pushed to the odds array in the accumulator.
+
+The accumulator object is returned after each iteration.
+
+The final result will be an object with two properties: odds containing the odd numbers and evens containing the even numbers.
